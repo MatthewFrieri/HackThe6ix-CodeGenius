@@ -9,16 +9,16 @@ type Section = {
 };
 
 type Response = {
-  score: number;
+  score: string;
   sections: Section[];
 };
 
-export default function FileView({ fileText }: { fileText: string }) {
+export default function FileView({ fileText, score }: { fileText: string, score: string }) {
   const text = JSON.stringify(fileText).slice(1, -1);
   const lines = text.split("\\n");
 
   const response: Response = {
-    score: 85,
+    score: score, // score to change!
     sections: [
       { startLine: 3, endLine: 6, feedBack: "feedback 1 " },
       { startLine: 9, endLine: 11, feedBack: "feedback 2" },
