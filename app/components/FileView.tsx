@@ -17,7 +17,7 @@ type Response = {
 export default function FileView({
   fileText,
   score,
-  threeThings
+  threeThings,
 }: {
   fileText: string;
   score: string;
@@ -27,29 +27,23 @@ export default function FileView({
   const lines = text.split("\\n");
 
   const trimmedString = threeThings.slice(1, -1);
+  console.log(trimmedString);
 
   // Split the string on the first two commas it finds
-  const parts = trimmedString.split(/,(.+)/, 2);
-
-  const startLine = parseInt(parts[0].trim());
-  const endLineAndFeedback = parts[1].split(/,(.+)/, 2);
-  const endLine = parseInt(endLineAndFeedback[0].trim());
-  const feedback = endLineAndFeedback[1].trim().slice(1, -1); // Remove surrounding single quotes
+  const parts = trimmedString.split(",");
+  const startLine = parts[0];
+  const endLine = parts[1];
+  const feedback = parts.slice(2, parts.length).join(",");
 
   const resultObject = {
-      startLine: startLine,
-      endLine: endLine,
-      feedback: feedback
+    startLine: Number(startLine),
+    endLine: Number(endLine),
+    feedback: feedback,
   };
-
-  console.log("threeThings");
-  console.log(threeThings);
 
   const response: Response = {
     score: score, // score to change!
-    sections: [
-      resultObject
-    ],
+    sections: [resultObject],
   };
 
   const [hoveredSection, setHoveredSection] = useState<number | null>(null);
