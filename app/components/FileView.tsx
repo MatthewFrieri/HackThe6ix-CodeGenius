@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import React, { useState } from "react";
 
 type Section = {
@@ -55,6 +56,11 @@ export default function FileView({
 
   return (
     <div className="relative flex flex-col items-center">
+      <Link href={"/"}>
+        <button className="top-20 left-20 absolute bg-gradient-to-r from-red-500 to-orange-400 p-2 rounded text-white text-xl">
+          Return Home
+        </button>
+      </Link>
       <div className="top-10 right-10 absolute flex justify-center items-center bg-gradient-to-r from-red-500 to-orange-400 rounded-full w-40 h-40">
         <h2 className="text-6xl text-white">
           {response.score}

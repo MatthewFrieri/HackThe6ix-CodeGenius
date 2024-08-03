@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { getScore } from "../api/apiCalls";
+import { getIndices, getScore } from "../api/apiCalls";
 
 export default function Home() {
   const [file, setFile] = useState<File>();
@@ -24,6 +24,9 @@ export default function Home() {
 
         // API CALLS
         const score = await getScore(fileText);
+
+        const indicies = await getIndices(fileText);
+        console.log(indicies);
 
         // Navigate to the view page and pass the review response
         router.push(

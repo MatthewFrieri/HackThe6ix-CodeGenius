@@ -21,7 +21,6 @@ export default function ViewPage() {
     if (fileText) {
       const decodedText = decodeURIComponent(fileText);
       setText(decodedText);
-      console.log(decodedText);
     }
   }, [searchParams]);
 
