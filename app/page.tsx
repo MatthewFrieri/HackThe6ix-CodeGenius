@@ -1,5 +1,5 @@
-export default function Home() {
-  return (
-    <h1>home</h1>
-  );
+import FileInput from "./components/FileInput";
+
+export default function HomePage() {
+  return <FileInput></FileInput>;
 }
