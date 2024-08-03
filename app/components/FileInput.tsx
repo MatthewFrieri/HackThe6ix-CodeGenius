@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import CreatePrompt from "../api/prompt";
+import { sendData } from "../api/postCall";
 
 export default function Home() {
   const [file, setFile] = useState<File>();
@@ -27,8 +28,10 @@ export default function Home() {
         // Pass the prompt to llama here
         console.log(prompt);
 
+        sendData();
+
         // Navigate to the view page and pass the file content
-        router.push(`/view?fileText=${encodeURIComponent(fileText)}`);
+        // router.push(`/view?fileText=${encodeURIComponent(fileText)}`);
       };
 
       reader.onerror = (e) => {
