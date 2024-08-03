@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import React, { useState } from "react";
+import { parseAnnotations } from "../lib/parse";
 
-type Section = {
+export type Section = {
   startLine: number;
   endLine: number;
   feedback: string;
@@ -26,24 +27,11 @@ export default function FileView({
   const text = JSON.stringify(fileText).slice(1, -1);
   const lines = text.split("\\n");
 
-  const trimmedString = annotations.slice(1, -1);
-  console.log(trimmedString);
-
-  // Split the string on the first two commas it finds
-  const parts = trimmedString.split(",");
-  const startLine = parts[0];
-  const endLine = parts[1];
-  const feedback = parts.slice(2, parts.length).join(",");
-
-  const resultObject = {
-    startLine: Number(startLine),
-    endLine: Number(endLine),
-    feedback: feedback,
-  };
+  const sections = parseAnnotations(annotations);
 
   const response: Response = {
     score: score, // score to change!
-    sections: [resultObject],
+    sections: sections,
   };
 
   const [hoveredSection, setHoveredSection] = useState<number | null>(null);

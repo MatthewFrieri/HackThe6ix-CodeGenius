@@ -69,10 +69,11 @@ def get_indices():
 
     client = groq.Groq(api_key=api_key)
     user_content = """
-        Review the code and return JUST a list in the format [startIndex, endIndex, feedback]
-        where startIndex is the first line (inclusive) of the complex portion of code, endIndex
-        is the last line (inclusive) of the portion of complex code, and feedback is a justification
-        as to why this code is complex along with the selected code itself. 
+        Review the code and return JUST a list of lists in the format [[startIndex, endIndex, feedback], [startIndex, endIndex, feedback], ...]
+        where startIndex is the first line (inclusive) of a complex portion of code, endIndex
+        is the last line (inclusive) of a portion of complex code, and feedback is a justification
+        as to why this code is complex. 
+        Include as many portions of complex code as needed.
         The given code is indexed by a line number, followed by a ~ character, and then the code itself. Please use these line numbers to specify the startIndex and endIndex.
         A complex portion of code is defined as any block that may be ambiguous to someone who is not familiar with the code. Here is the code: "
     """ + input_string
