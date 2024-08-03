@@ -13,7 +13,13 @@ type Response = {
   sections: Section[];
 };
 
-export default function FileView({ fileText, score }: { fileText: string, score: string }) {
+export default function FileView({
+  fileText,
+  score,
+}: {
+  fileText: string;
+  score: string;
+}) {
   const text = JSON.stringify(fileText).slice(1, -1);
   const lines = text.split("\\n");
 
