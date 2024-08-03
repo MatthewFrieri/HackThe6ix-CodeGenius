@@ -72,7 +72,7 @@ def get_indices():
         Review the code and return JUST a list of lists in the format [[startIndex, endIndex, feedback], [startIndex, endIndex, feedback], ...]
         where startIndex is the first line (inclusive) of a complex portion of code, endIndex
         is the last line (inclusive) of a portion of complex code, and feedback is a justification
-        as to why this code is complex. 
+        as to why this code is complex.
         Include as many portions of complex code as needed.
         The given code is indexed by a line number, followed by a ~ character, and then the code itself. Please use these line numbers to specify the startIndex and endIndex.
         A complex portion of code is defined as any block that may be ambiguous to someone who is not familiar with the code. Here is the code: "
@@ -83,8 +83,7 @@ def get_indices():
         messages=[
             {
                 "role": "system",
-                "content": "You are a concise and precise code reviewer who is identifying a complex portion of code in a larger codebase. return ONLY a list with 3 values where the first represents startIndex and the second represents endIndex and the third represents feedback. it is CRUCIAL that you ONLY return the list specified."
-
+                "content": "You are a concise and precise code reviewer who is identifying a complex portion of code in a larger codebase. return ONLY a list with 3 values where the first represents startIndex and the second represents endIndex and the third represents feedback. it is CRUCIAL that you ONLY return the list specified. However, the feedback can be as long as needed. The feedback should be in 3 parts: 1. What is the code doing? 2. How does it intertwine with the rest of the code? Ensure you refer to at least one other part of the program when providing your response, but ONLY through line number, NEVER through actual code. 3. What are some technical details that make this code complex? Ensure you refer to at least one technical detail in the program, but ONLY through line number, NEVER through actual code."
             },
             {
                 "role": "user",
