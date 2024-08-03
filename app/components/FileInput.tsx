@@ -61,7 +61,7 @@ export default function Home() {
       </label>
       <button
         type="submit"
-        className="bg-white hover:bg-gray-200 text-zinc-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-4"
+        className="bg-white hover:bg-gray-200 focus:shadow-outline mt-12 px-4 py-2 rounded font-bold text-zinc-800 focus:outline-none"
       >
         Submit
       </button>

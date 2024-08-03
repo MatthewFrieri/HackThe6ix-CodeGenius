@@ -2,8 +2,8 @@ import FileInput from "./components/FileInput";
 
 export default function HomePage() {
   return (
-    <div className="flex justify-center items-center flex-col my-40">
-      <h1 className="text-9xl font-bold mb-20 w-fit text-transparent bg-gradient-to-r from-red-500 to-orange-400 bg-clip-text">
+    <div className="flex flex-col justify-center items-center my-32">
+      <h1 className="bg-clip-text bg-gradient-to-r from-red-500 to-orange-400 mb-20 w-fit font-bold text-9xl text-transparent">
         CodeGenius
       </h1>
       <FileInput></FileInput>
