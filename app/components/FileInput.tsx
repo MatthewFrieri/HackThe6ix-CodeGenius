@@ -21,18 +21,26 @@ export default function Home() {
 
       reader.onload = async (e) => {
         const fileText = e.target?.result as string;
+        const text = JSON.stringify(fileText).slice(1, -1);
+        const lines = text.split("\\n");
+
+        const indexedLines = lines.map((line, index) => `${index}~${line}`);
+    
+        // Join all items into one big string without newline characters
+        const resultString = indexedLines.join('');
 
         // API CALLS
         const score = await getScore(fileText);
 
-        const indicies = await getIndices(fileText);
-        console.log(indicies);
+        const threeThings = await getIndices(resultString);
+        console.log(threeThings);
+        console.log(resultString);
 
         // Navigate to the view page and pass the review response
         router.push(
           `/view?fileText=${encodeURIComponent(
             fileText
-          )}&score=${encodeURIComponent(score)}`
+          )}&score=${encodeURIComponent(score)}&threeThings=${encodeURIComponent(threeThings)}`
         );
       };
 

@@ -5,9 +5,6 @@ import groq
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
 
-
-
-
 @app.route('/get-score', methods=['POST'])
 def get_score():
     data = request.json
@@ -76,11 +73,9 @@ def get_indices():
         where startIndex is the first line (inclusive) of the complex portion of code, endIndex
         is the last line (inclusive) of the portion of complex code, and feedback is a justification
         as to why this code is complex along with the selected code itself. 
-        The first line of code is at index 1, after every \\n character, the line index increments by 1. A line of code is done once a \\n character occurs. 
+        The given code is indexed by a line number, followed by a ~ character, and then the code itself. Please use these line numbers to specify the startIndex and endIndex.
         A complex portion of code is defined as any block that may be ambiguous to someone who is not familiar with the code. Here is the code: "
     """ + input_string
-    
-    
 
     completion = client.chat.completions.create(
         model="llama-3.1-70b-versatile",

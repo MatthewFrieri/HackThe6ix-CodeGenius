@@ -6,7 +6,7 @@ import React, { useState } from "react";
 type Section = {
   startLine: number;
   endLine: number;
-  feedBack: string;
+  feedback: string;
 };
 
 type Response = {
@@ -17,18 +17,38 @@ type Response = {
 export default function FileView({
   fileText,
   score,
+  threeThings
 }: {
   fileText: string;
   score: string;
+  threeThings: string;
 }) {
   const text = JSON.stringify(fileText).slice(1, -1);
   const lines = text.split("\\n");
 
+  const trimmedString = threeThings.slice(1, -1);
+
+  // Split the string on the first two commas it finds
+  const parts = trimmedString.split(/,(.+)/, 2);
+
+  const startLine = parseInt(parts[0].trim());
+  const endLineAndFeedback = parts[1].split(/,(.+)/, 2);
+  const endLine = parseInt(endLineAndFeedback[0].trim());
+  const feedback = endLineAndFeedback[1].trim().slice(1, -1); // Remove surrounding single quotes
+
+  const resultObject = {
+      startLine: startLine,
+      endLine: endLine,
+      feedback: feedback
+  };
+
+  console.log("threeThings");
+  console.log(threeThings);
+
   const response: Response = {
     score: score, // score to change!
     sections: [
-      { startLine: 3, endLine: 6, feedBack: "feedback 1 " },
-      { startLine: 9, endLine: 11, feedBack: "feedback 2" },
+      resultObject
     ],
   };
 
@@ -100,9 +120,9 @@ export default function FileView({
         </div>
         <div className="flex border-gray-400 p-10 border rounded-xl w-[40%] text-white">
           {hoveredSection !== null
-            ? response.sections[hoveredSection].feedBack
+            ? response.sections[hoveredSection].feedback
             : clickedSection !== null &&
-              response.sections[clickedSection].feedBack}
+              response.sections[clickedSection].feedback}
         </div>
       </div>
     </div>
