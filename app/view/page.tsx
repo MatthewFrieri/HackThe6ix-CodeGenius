@@ -8,13 +8,13 @@ export default function ViewPage() {
   const searchParams = useSearchParams();
   const [text, setText] = useState<string>("");
   const [score, setScore] = useState<string>("");
-  const [threeThings, setThreeThings] = useState<string>("");
+  const [annotations, setAnnotations] = useState<string>("");
 
   useEffect(() => {
     // Get the fileText parameter from the searchParams
     const fileText = searchParams.get("fileText");
     const score = searchParams.get("score");
-    const threeThings = searchParams.get("threeThings");
+    const annotations = searchParams.get("annotations");
 
     if (score) {
       const decodedScore = decodeURIComponent(score);
@@ -24,11 +24,11 @@ export default function ViewPage() {
       const decodedText = decodeURIComponent(fileText);
       setText(decodedText);
     }
-    if (threeThings) {
-      const decodedText = decodeURIComponent(threeThings);
-      setThreeThings(decodedText);
+    if (annotations) {
+      const decodedText = decodeURIComponent(annotations);
+      setAnnotations(decodedText);
     }
   }, [searchParams]);
 
-  return <FileView fileText={text} score={score} threeThings={threeThings}></FileView>;
+  return <FileView fileText={text} score={score} annotations={annotations}></FileView>;
 }

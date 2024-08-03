@@ -32,15 +32,15 @@ export default function Home() {
         // API CALLS
         const score = await getScore(fileText);
 
-        const threeThings = await getIndices(resultString);
-        console.log(threeThings);
+        const annotations = await getIndices(resultString);
+        console.log(annotations);
         console.log(resultString);
 
         // Navigate to the view page and pass the review response
         router.push(
           `/view?fileText=${encodeURIComponent(
             fileText
-          )}&score=${encodeURIComponent(score)}&threeThings=${encodeURIComponent(threeThings)}`
+          )}&score=${encodeURIComponent(score)}&annotations=${encodeURIComponent(annotations)}`
         );
       };
 

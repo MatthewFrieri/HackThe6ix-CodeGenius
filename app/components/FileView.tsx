@@ -17,16 +17,16 @@ type Response = {
 export default function FileView({
   fileText,
   score,
-  threeThings,
+  annotations,
 }: {
   fileText: string;
   score: string;
-  threeThings: string;
+  annotations: string;
 }) {
   const text = JSON.stringify(fileText).slice(1, -1);
   const lines = text.split("\\n");
 
-  const trimmedString = threeThings.slice(1, -1);
+  const trimmedString = annotations.slice(1, -1);
   console.log(trimmedString);
 
   // Split the string on the first two commas it finds
