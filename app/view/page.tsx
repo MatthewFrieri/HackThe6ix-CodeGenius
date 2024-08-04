@@ -38,18 +38,21 @@ export default function ViewPage() {
   return (
     <div className="relative flex flex-col">
       <Link href={"/"}>
-        <button className="top-10 z-10 right-10 absolute border-white border-2 border-rounded p-2 rounded text-white text-xl hover:bg-white hover:text-black transition-transform transform duration-500 hover:scale-110 animate-fade-in">
+        <button className="top-10 right-10 z-10 absolute border-2 border-white hover:bg-white p-2 border-rounded rounded text-white text-xl hover:text-black transform transition-transform animate-fade-in duration-500 hover:scale-110">
           Return Home
         </button>
       </Link>
-      <h1 className="bg-clip-text top-10 absolute text-center w-full bg-gradient-to-r from-red-500 to-orange-400 h-32 font-bold text-6xl text-transparent animate-fade-in">
+      <h1 className="top-10 absolute bg-clip-text bg-gradient-to-r from-red-500 to-orange-400 w-full h-32 font-bold text-6xl text-center text-transparent animate-fade-in">
         Review your Code
       </h1>
-      <div className="mx-10 mt-24">
+      <div
+        className="mx-10 mt-24 overflow-hidden"
+        style={{ animation: "slideDown 1.5s cubic-bezier(.26,.93,.5,.9)" }}
+      >
         <Tabs>
           <TabList style={{ marginLeft: "40px" }}>
             {allParsedData.map((parsedData, index) => (
-              <Tab style={{animation: 'fadeIn 2s ease-in-out'}} key={index}>{parsedData.fileName}</Tab>
+              <Tab key={index}>{parsedData.fileName}</Tab>
             ))}
           </TabList>
           <div className="">
@@ -67,6 +70,17 @@ export default function ViewPage() {
         </Tabs>
       </div>
       <style jsx>{`
+        @keyframes slideDown {
+          from {
+            maxheight: 0rem;
+            opacity: 1;
+          }
+          to {
+            maxheigt: 100rem;
+            opacity: 1;
+          }
+        }
+
         @keyframes fadeIn {
           from {
             opacity: 0;

@@ -4,7 +4,7 @@ import FileInput from "./components/FileInput"; // Correct path to the FileInput
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col justify-center items-center my-32">
+    <div className="flex flex-col justify-center items-center mt-24">
       <style jsx>{`
         @keyframes reveal {
           from {

@@ -73,7 +73,7 @@ export default function FileView({
   React.useEffect(() => {
     const timer = setTimeout(() => {
       setShowScore(true);
-    }, 2000); // Adjust the delay to match the slide-down animation duration
+    }, 0); // Adjust the delay to match the slide-down animation duration
     return () => clearTimeout(timer);
   }, []);
 
@@ -128,23 +128,11 @@ export default function FileView({
           }
         }
 
-        .animate-pop-in {
-          animation: popIn 0.5s ease-out; /* Adjusted duration for a faster and more dynamic effect */
-        }
-
-        .animate-slide-down {
-          animation: slideDown 0.7s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-        }
-
-        .animate-reveal {
-          animation: reveal 1.5s ease-in-out forwards;
-        }
-
         .code-container {
           width: 100%;
           height: 80vh;
           transition: width 0.5s;
-          animation: slideDown 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+          // animation: slideDown 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
           border-radius: 15px;
           overflow-y: scroll;
           scrollbar-width: none; /* Firefox */
@@ -153,85 +141,6 @@ export default function FileView({
 
         .code-container::-webkit-scrollbar {
           display: none; /* Safari and Chrome */
-        }
-
-        .popup-wrapper {
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          width: 40%;
-          transition: width 0.5s;
-        }
-
-        .popup-container {
-          background-color: #333;
-          border-radius: 10px;
-          color: white;
-          display: block;
-          opacity: 1;
-          padding: 50px;
-          position: relative;
-          transition: opacity 0.5s, transform 0.5s;
-        }
-
-        .popup-content {
-          opacity: 1;
-          transition: opacity 0.5s;
-        }
-
-        .close-button {
-          background-color: transparent;
-          border: 2px solid #ccc;
-          border-radius: 5px;
-          color: white;
-          cursor: pointer;
-          padding: 5px 20px;
-          position: absolute;
-          top: 10px;
-          right: 10px;
-          font-size: 16px;
-        }
-
-        .close-button:hover {
-          background-color: #ccc;
-          color: black;
-        }
-
-        .hovered {
-          width: 60%;
-        }
-
-        .hoverable {
-          position: relative;
-          cursor: pointer;
-          color: #66d9ef;
-          transition: color 0.3s, background-color 0.3s;
-        }
-
-        .hoverable:hover {
-          color: #a6e22e;
-          background-color: #333;
-        }
-
-        .popup-wrapper {
-          pointer-events: none;
-        }
-
-        .popup-container {
-          pointer-events: all;
-        }
-
-        .button-animate {
-          background-color: transparent; /* Initial background color */
-          border: 2px solid #ccc; /* Initial outline color */
-          transition: background-color 0.3s ease, transform 0.3s ease,
-            color 0.3s ease;
-        }
-
-        .button-animate:hover {
-          background-color: #ccc; /* Filled color on hover */
-          color: black;
-          transform: scale(1.1); /* Slightly enlarge on hover */
         }
 
         .score-popup {
@@ -245,11 +154,12 @@ export default function FileView({
           padding: 10px;
           cursor: pointer;
           transition: transform 0.3s ease;
-          animation: popIn 0.5s ease-out;
+          // animation: popIn 0.5s ease-out;
         }
 
         .score-popup:hover {
-          transform: scale(1.05);
+          // transform: scale(1.02);
+          transform: translateY(-5px);
         }
 
         .modal {
@@ -321,7 +231,7 @@ export default function FileView({
           color: white;
         }
       `}</style>
-      <div className="relative flex flex-col items-center">
+      <div className="relative flex flex-col items-center ">
         {isPopupVisible && (
           <div className="modal show">
             <div className="modal-content">
@@ -335,8 +245,8 @@ export default function FileView({
             </div>
           </div>
         )}
-        <div className="flex w-full">
-          <div className="border-gray-400 mr-4 p-10 border rounded-xl w-[70%] h-[40rem] overflow-scroll code-container animate-slide-down">
+        <div className="flex w-full ">
+          <div className="border-gray-400 mr-4 p-10 border rounded-xl w-[70%] h-[40rem] overflow-scroll code-container">
             {lines.map((line, index) => {
               const section = response.sections.find(
                 (sec) => index >= sec.startLine - 1 && index < sec.endLine + 1
@@ -365,7 +275,7 @@ export default function FileView({
               );
             })}
           </div>
-          <div className="flex flex-col w-[30rem] animate-slide-down animate-reveal">
+          <div className="flex flex-col w-[30rem]">
             <div className="feedback-column w-full">
               <h2>Feedback</h2>
               {(hoveredSection !== null || clickedSection !== null) && (
@@ -386,39 +296,37 @@ export default function FileView({
               )}
             </div>
             {showScore && (
-              <div className="flex-grow border-gray-400 mt-4 border rounded-xl w-full score-popup animate-pop-in">
-              <div
-                className="flex items-center justify-between w-full px-10 h-full cursor-pointer"
-                onClick={handleScoreClick}
-              >
-                <div className="flex flex-col">
-                  <span className="text-lg">Rated:</span>
-                  <span className="text-5xl">
-                    {response.score}
-                    <span className="text-xl">/100</span>
-                  </span>
-                </div>
-                <div className="flex items-center">
-                  <a className="text-sm text-white underline mr-2">
-                    See why
-                  </a>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    className="w-5 h-5 text-white"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
+              <div className="flex-grow border-gray-400 mt-4 border rounded-xl w-full score-popup">
+                <div
+                  className="flex items-center justify-between w-full px-10 h-full cursor-pointer"
+                  onClick={handleScoreClick}
+                >
+                  <div className="flex flex-col">
+                    <span className="text-lg">Rated:</span>
+                    <span className="text-5xl">
+                      {response.score}
+                      <span className="text-xl">/100</span>
+                    </span>
+                  </div>
+                  <div className="flex items-center">
+                    <a className="text-sm text-white underline mr-2">See why</a>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      className="w-5 h-5 text-white"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </div>
                 </div>
               </div>
-            </div>
             )}
           </div>
         </div>
