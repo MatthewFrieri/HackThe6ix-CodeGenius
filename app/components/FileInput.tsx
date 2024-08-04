@@ -25,22 +25,23 @@ export default function Home() {
         const lines = text.split("\\n");
 
         const indexedLines = lines.map((line, index) => `${index}~${line}`);
-    
+
         // Join all items into one big string without newline characters
-        const resultString = indexedLines.join('');
+        const resultString = indexedLines.join("");
 
         // API CALLS
         const score = await getScore(fileText);
+        console.log("api await", score);
 
         const annotations = await getIndices(resultString);
-        console.log(annotations);
-        console.log(resultString);
 
         // Navigate to the view page and pass the review response
         router.push(
           `/view?fileText=${encodeURIComponent(
             fileText
-          )}&score=${encodeURIComponent(score)}&annotations=${encodeURIComponent(annotations)}`
+          )}&score=${encodeURIComponent(
+            score
+          )}&annotations=${encodeURIComponent(annotations)}`
         );
       };
 
@@ -65,7 +66,7 @@ export default function Home() {
       <label
         htmlFor="fileInput"
         className={`border-4 p-6 rounded-2xl text-white w-[60rem] h-[20rem] flex flex-col items-center justify-center cursor-pointer ${
-          file ? "bg-green-600" : "border-dashed border-red-400"
+          file ? "bg-zinc-600" : "border-dashed border-red-400"
         } `}
       >
         <p className="text-4xl">
@@ -74,7 +75,7 @@ export default function Home() {
       </label>
       <button
         type="submit"
-        className="bg-white hover:bg-gray-200 focus:shadow-outline mt-12 px-4 py-2 rounded font-bold text-zinc-800 focus:outline-none"
+        className="bg-white hover:bg-gray-200 focus:shadow-outline mt-12 px-4 py-4 rounded font-bold text-zinc-800 focus:outline-none"
       >
         Submit
       </button>

@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import React, { useState } from "react";
-import { parseAnnotations } from "../lib/parse";
+import { parseAnnotations, parseScore } from "../lib/parse";
+import ScorePopup from "./ScorePopup";
 
 export type Section = {
   startLine: number;
@@ -29,13 +30,18 @@ export default function FileView({
 
   const sections = parseAnnotations(annotations);
 
+  console.log("score:::", score);
+
+  const parsedScore = parseScore(score);
+
   const response: Response = {
-    score: score, // score to change!
+    score: parsedScore.score, // score to change!
     sections: sections,
   };
 
   const [hoveredSection, setHoveredSection] = useState<number | null>(null);
   const [clickedSection, setClickedSection] = useState<number | null>(null);
+  const [isPopupVisible, setIsPopupVisible] = useState<boolean>(false);
 
   const handleMouseEnter = (section: Section) => {
     setHoveredSection(response.sections.indexOf(section));
@@ -56,14 +62,35 @@ export default function FileView({
     }
   };
 
+  const handleScoreClick = () => {
+    setIsPopupVisible(true);
+  };
+
+  const handleClosePopup = () => {
+    setIsPopupVisible(false);
+  };
+
   return (
     <div className="relative flex flex-col items-center">
+      {isPopupVisible && (
+        <ScorePopup justification={parsedScore.justification}>
+          <button
+            className="-top-8 -right-8 absolute bg-red-500 rounded-full w-16 h-16 text-3xl text-white"
+            onClick={handleClosePopup}
+          >
+            X
+          </button>
+        </ScorePopup>
+      )}
       <Link href={"/"}>
         <button className="top-20 left-20 absolute bg-gradient-to-r from-red-500 to-orange-400 p-2 rounded text-white text-xl">
           Return Home
         </button>
       </Link>
-      <div className="top-10 right-10 absolute flex justify-center items-center bg-gradient-to-r from-red-500 to-orange-400 rounded-full w-40 h-40">
+      <div
+        className="top-10 right-10 absolute flex justify-center items-center bg-gradient-to-r from-red-500 to-orange-400 rounded-full w-40 h-40 cursor-pointer"
+        onClick={handleScoreClick}
+      >
         <h2 className="text-6xl text-white">
           {response.score}
           <p className="inline text-xl">/100</p>

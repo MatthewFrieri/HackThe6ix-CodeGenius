@@ -36,3 +36,15 @@ export function parseAnnotations(annotations: string) {
   }
   
  
+  export function parseScore(score: string) {
+
+    const parts = score.split(',')
+    
+    const joinedJustification = parts.slice(1, parts.length).join(',')
+    const obj = {
+        score: parts[0].slice(8, parts[0].length),
+        justification: joinedJustification.slice(17, -3)
+    }
+
+    return obj
+}

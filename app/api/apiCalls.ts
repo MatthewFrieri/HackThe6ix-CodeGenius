@@ -12,6 +12,9 @@ export async function getScore(fileText: string) {
         );
 
         const result = await response.json();
+        console.log('inside api call');
+        console.log(result.score);
+        
         return result.score;
 
 

@@ -21,15 +21,18 @@ def get_score():
         return jsonify({"error": "API key is missing"}), 500
 
     client = groq.Groq(api_key=api_key)
-    user_content = f"Review the code and return JUST a integer value from 1 - 100 rating how good you think the code " \
-                   f"is based in creativity, documentation and logic: {input_string}"
+    user_content = """
+        Review the following code and return an integer value from 1 - 100 rating how good you think the code 
+        is based in documentation and straightforwardness. Also give a justification for the score. 
+        Format the response as an object with keys score and justification. Code: 
+    """ + input_string
 
     completion = client.chat.completions.create(
         model="llama-3.1-70b-versatile",
         messages=[
             {
                 "role": "system",
-                "content": "You are a concise and precise code reviewer. give a integer from 1 to 100 rating the code. return just a integer value"
+                "content": "You are a concise and precise code reviewer. give a integer from 1 to 100 rating the code and a justification for why. IMPORTANT: ONLY return a JSON object with score and justification IN THIS FORMAT: { score: ___, justification: ___ }. I REPEAT DO NOT USE ANY OTHER FORMAT. Anytime you refer to code, only use line numbers and never include code in your justification"
 
             },
             {
@@ -48,6 +51,7 @@ def get_score():
     for chunk in completion:
         response_content += chunk.choices[0].delta.content or ""
 
+    # return jsonify({"score": '{score: 92, justification: this is my justi}'})
     return jsonify({"score": response_content.strip()})
 
 
