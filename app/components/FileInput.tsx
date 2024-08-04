@@ -144,10 +144,11 @@ export default function Home() {
 
         .spinner {
           border: 4px solid rgba(255, 255, 255, 0.3);
-          border-top: 4px solid #ffffff;
+          border-top: 4px solid #000000;
           border-radius: 50%;
-          width: 40px;
-          height: 40px;
+          width:25px;
+          height: 25px;
+          margin: 0 auto;
           animation: spin 1s linear infinite;
         }
 
@@ -160,7 +161,7 @@ export default function Home() {
           }
         }
       `}</style>
-      <form onSubmit={handleSubmit} className="flex flex-col">
+      <form onSubmit={handleSubmit} className="flex flex-col items-center">
         <input
           id="fileInput"
           type="file"
@@ -169,33 +170,29 @@ export default function Home() {
         />
         <label
           htmlFor="fileInput"
-          className={`border-4 p-6 border-red-400 rounded-2xl text-white w-[55rem] h-[17rem] flex flex-col items-center justify-center cursor-pointer ${
-            file ? "border-solid" : "border-dashed border-red-400 animate-pulse"
+          className={`border-4 p-6 rounded-2xl text-white w-[60rem] h-[20rem] flex flex-col items-center justify-center cursor-pointer ${
+            file ? "border-solid border-red-400" : "border-dashed border-red-400 animate-pulse-custom"
           } `}
         >
-          <div className="text-4xl">
-            {file ? (
-              <div className="flex flex-col justify-center items-center">
-                <p className="mb-8">File Selected:</p>
-                <p>{file.name}</p>
-              </div>
-            ) : (
-              "Drop in a file!"
-            )}
-          </div>
+          <p className="text-4xl bg-clip-text bg-white text-transparent">
+            {file ? `File Selected` : "Drop in a file!"}
+          </p>
+          {file && (
+            <p className="text-2xl mt-2 bg-clip-text bg-gradient-to-r from-red-500 to-orange-400 text-transparent">
+              {`File: ${file.name}`}
+            </p>
+          )}
         </label>
         <button
           type="submit"
-          className={`focus:shadow-outline bg-white mt-12 px-4 py-4 rounded font-bold text-zinc-800 focus:outline-none ${
+          className={`focus:shadow-outline bg-white mt-12 px-4 py-4 rounded font-bold text-zinc-800 focus:outline-none${
             loading ? "" : "hover:bg-gray-300"
           }`}
           disabled={loading} // Disable the button while loading
+          style={{ width: '60rem' }} // Make the button long again
         >
-          {loading ? "Submitting..." : "Submit"}
+          {loading ? <div className="spinner"></div> : "Submit"}
         </button>
-        <div className="right-10 bottom-10 absolute">
-          {loading && <img src="loading.gif" width={60} />}
-        </div>
       </form>
     </>
   );
