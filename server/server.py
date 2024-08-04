@@ -1,6 +1,10 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import groq
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
@@ -16,7 +20,7 @@ def get_score():
     input_string = data['input_string']
 
     # Generate a review based on the input string using Groq API
-    api_key = "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"
+    api_key = os.getenv('GROQ_API_KEY')
     if not api_key:
         return jsonify({"error": "API key is missing"}), 500
 
@@ -33,7 +37,6 @@ def get_score():
             {
                 "role": "system",
                 "content": "You are a concise and precise code reviewer. give a integer from 1 to 100 rating the code and a justification for why. IMPORTANT: ONLY return a JSON object with score and justification IN THIS FORMAT: { score: ___, justification: ___ }. I REPEAT DO NOT USE ANY OTHER FORMAT. Anytime you refer to code, only use line numbers and never include code in your justification"
-
             },
             {
                 "role": "user",
@@ -54,7 +57,6 @@ def get_score():
     # return jsonify({"score": '{score: 92, justification: this is my justi}'})
     return jsonify({"score": response_content.strip()})
 
-
 @app.route('/get-indices', methods=['POST'])
 def get_indices():
     data = request.json
@@ -66,7 +68,7 @@ def get_indices():
     input_string = data['input_string']
 
     # Generate a review based on the input string using Groq API
-    api_key = "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"
+    api_key = os.getenv('GROQ_API_KEY') # iykyk
     if not api_key:
         return jsonify({"error": "API key is missing"}), 500
 
@@ -86,7 +88,16 @@ def get_indices():
         messages=[
             {
                 "role": "system",
-                "content": "You are a concise and precise code reviewer who is identifying a complex portion of code in a larger codebase. return ONLY a list with 3 values where the first represents startIndex and the second represents endIndex and the third represents feedback. it is CRUCIAL that you ONLY return the list specified. However, the feedback can be as long as needed. The feedback should be in 3 parts: 1. What is the code doing? 2. How does it intertwine with the rest of the code? Ensure you refer to at least one other part of the program when providing your response, but ONLY through line number, NEVER through actual code. 3. What are some technical details that make this code complex? Ensure you refer to at least one technical detail in the program, but ONLY through line number, NEVER through actual code."
+                "content": """
+                    You are a concise and precise code reviewer who is identifying a complex portion of code in a larger codebase.
+                    return ONLY a list with 3 values where the first represents startIndex and the second represents endIndex and the third represents feedback.
+                    it is CRUCIAL that you ONLY return the list specified. However, the feedback can be as long as needed. Make sure there is enough whitespace between each respective question. Maybe output a whole line worth of space between questions. The user should know each question is different.
+                    The feedback should be in 3 parts:
+                    1. What is the code doing?
+                    2. How does it intertwine with the rest of the code? Ensure you refer to at least one other part of the program when providing your response, but ONLY through line number, NEVER through actual code.
+                    3. What are some technical details that make this code complex? Ensure you refer to at least one technical detail in the program, but ONLY through line number, NEVER through actual code.
+                    Where applicable, reference relevant sections from your previous knowledge of Python to supplement your answers. NEVER use real Python code in your response.
+                """
             },
             {
                 "role": "user",
@@ -105,8 +116,6 @@ def get_indices():
         response_content += chunk.choices[0].delta.content or ""
 
     return jsonify({"indices": response_content.strip()})
-
-
 
 if __name__ == '__main__':
     app.run(debug=True)
