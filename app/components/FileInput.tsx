@@ -17,6 +17,7 @@ type AnnotationsObj = {
 };
 
 type FileData = {
+  fileName: string;
   fileText: string;
   scoreObj: ScoreObj;
   annotationsObj: AnnotationsObj;
@@ -80,6 +81,7 @@ export default function Home() {
           const annotations = await getIndices(resultString);
 
           const fileData = {
+            fileName: file.name,
             fileText: fileText,
             scoreObj: score,
             annotationsObj: annotations,

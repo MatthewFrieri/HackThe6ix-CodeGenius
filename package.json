@@ -10,9 +10,12 @@
   },
   "dependencies": {
     "bitly": "^7.1.2",
+    "dotenv": "^16.4.5",
+    "jszip": "^3.10.1",
     "next": "^14.2.5",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-tabs": "^6.0.2"
   },
   "devDependencies": {
     "@types/node": "^20",

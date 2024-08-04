@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import React, { useState } from "react";
 import { parseAnnotations, parseScore } from "../lib/parse";
 import ScorePopup from "./ScorePopup";
@@ -17,10 +16,12 @@ type Response = {
 };
 
 export default function FileView({
+  fileName,
   fileText,
   score,
   annotations,
 }: {
+  fileName: string;
   fileText: string;
   score: string;
   annotations: string;
@@ -29,7 +30,6 @@ export default function FileView({
   const lines = text.split("\\n");
 
   const sections = parseAnnotations(annotations);
-
 
   const parsedScore = parseScore(score);
 
@@ -209,7 +209,7 @@ export default function FileView({
           transform: scale(1.1); /* Slightly enlarge on hover */
         }
       `}</style>
-      <div className="relative flex flex-col items-center">
+      <div className="relative flex flex-col">
         {isPopupVisible && (
           <ScorePopup justification={parsedScore.justification}>
             <button
@@ -220,25 +220,9 @@ export default function FileView({
             </button>
           </ScorePopup>
         )}
-        <Link href={"/"}>
-          <button className="top-20 left-20 absolute bg-gradient-to-r from-red-500 to-orange-400 p-2 rounded text-white text-xl">
-            Return Home
-          </button>
-        </Link>
-        <div
-          className="top-10 right-10 absolute flex justify-center items-center bg-gradient-to-r from-red-500 to-orange-400 rounded-full w-36 h-36 cursor-pointer"
-          onClick={handleScoreClick}
-        >
-          <h2 className="text-5xl text-white">
-            {response.score}
-            <p className="inline text-xl">/100</p>
-          </h2>
-        </div>
-        <h1 className="bg-clip-text bg-gradient-to-r from-red-500 to-orange-400 my-8 py-2 w-fit font-bold text-6xl text-transparent">
-          Review your Code
-        </h1>
-        <div className="flex justify-between w-[90%]">
-          <div className="border-gray-400 mr-10 p-10 border rounded-xl w-[60%] h-[40rem] overflow-scroll">
+
+        <div className="flex w-full">
+          <div className="border-gray-400 mr-4 p-10 border rounded-xl w-[70%] h-[40rem] overflow-scroll">
             {lines.map((line, index) => {
               const section = response.sections.find(
                 (sec) => index >= sec.startLine - 1 && index < sec.endLine + 1
@@ -267,26 +251,39 @@ export default function FileView({
               );
             })}
           </div>
-          <div className="flex flex-col border-gray-400 p-10 border rounded-xl w-[40%] text-white">
-            <h2 className="mb-10 text-5xl text-white">Feedback</h2>
-            {hoveredSection !== null ? (
-              <p className="text-xl">
-                {response.sections[hoveredSection].feedback}
-              </p>
-            ) : (
-              clickedSection !== null && (
+          <div className="flex flex-col w-[30rem]">
+            <div className="flex flex-col border-gray-400 bg-neutral-900 p-10 border rounded-xl h-[32rem] text-white overflow-scroll">
+              <h2 className="mb-10 text-5xl text-white">Feedback</h2>
+              {hoveredSection !== null ? (
                 <p className="text-xl">
-                  {response.sections[clickedSection].feedback}
+                  {response.sections[hoveredSection].feedback}
                 </p>
-              )
-            )}
-            {hoveredSection === null && clickedSection === null ? (
-              <p className="text-xl">
-                Find a highlighted code snippet for feedback
-              </p>
-            ) : (
-              ""
-            )}
+              ) : (
+                clickedSection !== null && (
+                  <p className="text-xl">
+                    {response.sections[clickedSection].feedback}
+                  </p>
+                )
+              )}
+              {hoveredSection === null && clickedSection === null ? (
+                <p className="text-xl">
+                  Find a highlighted code snippet for feedback
+                </p>
+              ) : (
+                ""
+              )}
+            </div>
+            <div className="flex-grow border-gray-400 mt-4 border rounded-xl w-full">
+              <div
+                className="flex items-center px-10 h-full cursor-pointer"
+                onClick={handleScoreClick}
+              >
+                <h2 className="text-5xl text-white">
+                  Rated: {response.score}
+                  <p className="inline text-xl">/100</p>
+                </h2>
+              </div>
+            </div>
           </div>
         </div>
       </div>
