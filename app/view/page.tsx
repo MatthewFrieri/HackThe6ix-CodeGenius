@@ -2,7 +2,7 @@
 
 import { useSearchParams } from "next/navigation";
 import FileView from "@/app/components/FileView";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
 import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
 import "@/app/styles/tabs.css";
@@ -12,6 +12,19 @@ type FileData = {
   fileText: string;
   scoreObj: string;
   annotationsObj: string;
+};
+
+const customTabsTheme = {
+  Tab: {
+    backgroundColor: "#f0f0f0",
+    borderBottom: "2px solid #ccc",
+    padding: "10px",
+  },
+  TabActive: {
+    backgroundColor: "#fff",
+    borderBottom: "2px solid #337ab7",
+    padding: "10px",
+  },
 };
 
 export default function ViewPage() {
@@ -32,7 +45,6 @@ export default function ViewPage() {
     if (allFileData !== "") {
       const parsedAllFileData = JSON.parse(allFileData);
       console.log(parsedAllFileData);
-
       setAllParsedData(parsedAllFileData);
     }
   }, [allFileData]);
@@ -40,62 +52,36 @@ export default function ViewPage() {
   return (
     <div className="relative flex flex-col">
       <Link href={"/"}>
-        <button className="top-10 right-10 z-10 absolute border-2 border-white hover:bg-white p-2 border-rounded rounded text-white text-xl hover:text-black transform transition-transform animate-fade-in duration-500 hover:scale-110">
+        <button className="top-10 z-10 right-10 absolute border-white border-2 border-rounded p-2 rounded text-white text-xl">
           Return Home
         </button>
       </Link>
-      <h1 className="top-10 absolute bg-clip-text bg-gradient-to-r from-red-500 to-orange-400 w-full h-32 font-bold text-6xl text-center text-transparent animate-fade-in">
+      <h1 className="bg-clip-text top-10 absolute text-center w-full bg-gradient-to-r from-red-500 to-orange-400 h-32 font-bold text-6xl text-transparent">
         Review your Code
       </h1>
-      <div
-        className="mx-10 mt-24 overflow-hidden"
-        style={{ animation: "slideDown 1.5s cubic-bezier(.26,.93,.5,.9)" }}
-      >
-        <Tabs>
-          <TabList style={{ marginLeft: "40px" }}>
-            {allParsedData.map((parsedData, index) => (
-              <Tab key={index}>{parsedData.fileName}</Tab>
-            ))}
-          </TabList>
-          <div className="">
-            {allParsedData.map((parsedData, index) => (
-              <TabPanel key={index}>
-                <FileView
-                  fileName={parsedData.fileName}
-                  fileText={parsedData.fileText}
-                  score={parsedData.scoreObj}
-                  annotations={parsedData.annotationsObj}
-                />
-              </TabPanel>
-            ))}
-          </div>
-        </Tabs>
+      <div className="mx-10 mt-24">
+        <Suspense fallback={<div>Loading...</div>}>
+          <Tabs>
+            <TabList style={{ marginLeft: "40px" }}>
+              {allParsedData.map((parsedData) => (
+                <Tab key={parsedData.fileName}>{parsedData.fileName}</Tab>
+              ))}
+            </TabList>
+            <div className="">
+              {allParsedData.map((parsedData) => (
+                <TabPanel key={parsedData.fileName}>
+                  <FileView
+                    fileName={parsedData.fileName}
+                    fileText={parsedData.fileText}
+                    score={parsedData.scoreObj}
+                    annotations={parsedData.annotationsObj}
+                  />
+                </TabPanel>
+              ))}
+            </div>
+          </Tabs>
+        </Suspense>
       </div>
-      <style jsx>{`
-        @keyframes slideDown {
-          from {
-            maxheight: 0rem;
-            opacity: 1;
-          }
-          to {
-            maxheigt: 100rem;
-            opacity: 1;
-          }
-        }
-
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-          }
-          to {
-            opacity: 1;
-          }
-        }
-
-        .animate-fade-in {
-          animation: fadeIn 2s ease-in-out;
-        }
-      `}</style>
     </div>
   );
 }
