@@ -35,6 +35,6 @@ export default function ViewPage() {
   return score !== "" ? (
     <FileView fileText={text} score={score} annotations={annotations} />
   ) : (
-    <h1>No score available</h1>
+    <h1 className="text-white">No score available</h1>
   );
 }

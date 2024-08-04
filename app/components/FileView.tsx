@@ -103,7 +103,7 @@ export default function FileView({
         <div className="border-gray-400 mr-10 p-10 border rounded-xl w-[60%] h-[45rem] overflow-scroll">
           {lines.map((line, index) => {
             const section = response.sections.find(
-              (sec) => index >= sec.startLine - 1 && index < sec.endLine
+              (sec) => index >= sec.startLine - 1 && index < sec.endLine + 1
             );
             const isHovered =
               section && response.sections.indexOf(section) === hoveredSection;
@@ -127,11 +127,26 @@ export default function FileView({
             );
           })}
         </div>
-        <div className="flex border-gray-400 p-10 border rounded-xl w-[40%] text-white">
-          {hoveredSection !== null
-            ? response.sections[hoveredSection].feedback
-            : clickedSection !== null &&
-              response.sections[clickedSection].feedback}
+        <div className="flex flex-col border-gray-400 p-10 border rounded-xl w-[40%] text-white">
+          <h2 className="mb-10 text-5xl text-white">Feedback</h2>
+          {hoveredSection !== null ? (
+            <p className="text-xl">
+              {response.sections[hoveredSection].feedback}
+            </p>
+          ) : (
+            clickedSection !== null && (
+              <p className="text-xl">
+                {response.sections[clickedSection].feedback}
+              </p>
+            )
+          )}
+          {hoveredSection === null && clickedSection === null ? (
+            <p className="text-xl">
+              Find a highlighted code snippet for feedback
+            </p>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </div>
