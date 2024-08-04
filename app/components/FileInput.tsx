@@ -2,7 +2,25 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import JSZip from "jszip";
 import { getIndices, getScore } from "../api/apiCalls";
+
+type ScoreObj = {
+  score: string;
+  justification: string;
+};
+
+type AnnotationsObj = {
+  startLine: number;
+  endLine: number;
+  feedback: string;
+};
+
+type FileData = {
+  fileText: string;
+  scoreObj: ScoreObj;
+  annotationsObj: AnnotationsObj;
+};
 
 export default function Home() {
   const [file, setFile] = useState<File>();
@@ -19,49 +37,88 @@ export default function Home() {
 
     if (file) {
       setLoading(true); // Set loading to true before starting the API calls
-      const reader = new FileReader();
 
-      reader.onload = async (e) => {
-        const fileText = e.target?.result as string;
+      const allFileData: FileData[] = [];
+      const files: File[] = [];
+      let counter = 0;
+
+      // Check if the uploaded file is a zip file
+      if (file.type === "application/zip") {
+        try {
+          const zip = await JSZip.loadAsync(file);
+          for (const fileName in zip.files) {
+            counter++;
+            const zipFile = zip.files[fileName];
+            if (!zipFile.dir) {
+              const fileText = await zipFile.async("text");
+
+              if (counter % 2 === 1) {
+                files.push(new File([fileText], fileName));
+              }
+            }
+          }
+        } catch (error) {
+          console.error("Error reading zip file:", error);
+        }
+      } else {
+        files.push(file);
+      }
+
+      // Function to process file
+      const processFile = async (file: File) => {
+        const fileText = await readFileAsText(file);
+
+        // middle man variables
         const text = JSON.stringify(fileText).slice(1, -1);
         const lines = text.split("\\n");
-
         const indexedLines = lines.map((line, index) => `${index}~${line}`);
-
-        // Join all items into one big string without newline characters
         const resultString = indexedLines.join("");
 
         try {
           // API CALLS
           const score = await getScore(fileText);
-          console.log("api await", score);
-
           const annotations = await getIndices(resultString);
 
-          // Navigate to the view page and pass the review response
-          router.push(
-            `/view?fileText=${encodeURIComponent(
-              fileText
-            )}&score=${encodeURIComponent(
-              score
-            )}&annotations=${encodeURIComponent(annotations)}`
-          );
+          const fileData = {
+            fileText: fileText,
+            scoreObj: score,
+            annotationsObj: annotations,
+          };
+
+          allFileData.push(fileData);
         } catch (error) {
           console.error("Error during API calls:", error);
-        } finally {
-          setLoading(false); // Set loading to false after the API calls are complete
         }
       };
 
-      reader.onerror = (e) => {
-        console.error("File reading error:", e);
-        setLoading(false); // Set loading to false in case of error
-      };
+      try {
+        // Read and process each file in the list
+        for (const file of files) {
+          await processFile(file);
+        }
 
-      reader.readAsText(file);
+        // DECLARE PATH AND PUSH ROUTER
+        const path = `/view?allFileData=${encodeURIComponent(
+          JSON.stringify(allFileData)
+        )}`;
+        router.push(path);
+      } catch (error) {
+        console.error("Error during file processing:", error);
+      } finally {
+        setLoading(false); // Set loading to false after the API calls are complete
+      }
     } else {
       console.log("No file selected.");
     }
+  };
+
+  const readFileAsText = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsText(file);
+    });
   };
 
   return (
@@ -114,7 +171,7 @@ export default function Home() {
             file ? "border-solid" : "border-dashed border-red-400 animate-pulse"
           } `}
         >
-          <p className="text-4xl">
+          <div className="text-4xl">
             {file ? (
               <div className="flex flex-col justify-center items-center">
                 <p className="mb-8">File Selected:</p>
@@ -123,7 +180,7 @@ export default function Home() {
             ) : (
               "Drop in a file!"
             )}
-          </p>
+          </div>
         </label>
         <button
           type="submit"

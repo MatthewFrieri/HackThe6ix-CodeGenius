@@ -64,7 +64,6 @@ def get_indices():
         return jsonify({"error": "input_string is missing"}), 400
 
     input_string = data['input_string']
-    print(repr(input_string))
 
     # Generate a review based on the input string using Groq API
     api_key = "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"

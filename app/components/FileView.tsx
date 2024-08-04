@@ -30,7 +30,6 @@ export default function FileView({
 
   const sections = parseAnnotations(annotations);
 
-  console.log("score:::", score);
 
   const parsedScore = parseScore(score);
 
