@@ -1,0 +1,19 @@
+.annotation {
+    font-family: Arial, sans-serif;
+    margin-bottom: 20px;
+  }
+  
+  .annotation h3 {
+    color: #4CAF50; /* Subheader color */
+    margin-bottom: 5px;
+  }
+  
+  .annotation p {
+    margin: 5px 0;
+  }
+  
+  .annotation .line-number {
+    font-style: italic;
+    color: #FF5733; /* Line number color */
+  }
+  
