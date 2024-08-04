@@ -27,8 +27,9 @@ def get_score():
     client = groq.Groq(api_key=api_key)
     user_content = """
         Review the following code and return an integer value from 1 - 100 rating how good you think the code 
-        is based in documentation and straightforwardness. Also give a justification for the score. 
-        Format the response as an object with keys score and justification. Code: 
+        is based in documentation and straightforwardness. Also give a justification for the score that explains
+        how it could be done better. Focus the justification on providing feedback. 
+        IMPORTANT: Format the response as an object with keys score and justification. Code: 
     """ + input_string
 
     completion = client.chat.completions.create(
@@ -36,7 +37,7 @@ def get_score():
         messages=[
             {
                 "role": "system",
-                "content": "You are a concise and precise code reviewer. give a integer from 1 to 100 rating the code and a justification for why. IMPORTANT: ONLY return a JSON object with score and justification IN THIS FORMAT: { score: ___, justification: ___ }. I REPEAT DO NOT USE ANY OTHER FORMAT. Anytime you refer to code, only use line numbers and never include code in your justification"
+                "content": "You are a concise and precise code reviewer. give a integer from 1 to 100 rating the code and a justification for how to improve the readability and straightforwardness. IMPORTANT: ONLY return a JSON object with score and justification IN THIS FORMAT: { score: ___, justification: ___ }. I REPEAT DO NOT USE ANY OTHER FORMAT. Do not put any newline characters in the desired object. Anytime you refer to code, only use line numbers and never include code in your justification"
             },
             {
                 "role": "user",
@@ -76,8 +77,8 @@ def get_indices():
     user_content = """
         Review the code and return JUST a list of lists in the format [[startIndex, endIndex, feedback], [startIndex, endIndex, feedback], ...]
         where startIndex is the first line (inclusive) of a complex portion of code, endIndex
-        is the last line (inclusive) of a portion of complex code, and feedback is a justification
-        as to why this code is complex.
+        is the last line (inclusive) of a portion of complex code, and feedback is a some feedback on how
+        to document the code better and make it more straightforward, the focus should be on explaining how to improve. 
         Include as many portions of complex code as needed.
         The given code is indexed by a line number, followed by a ~ character, and then the code itself. Please use these line numbers to specify the startIndex and endIndex.
         A complex portion of code is defined as any block that may be ambiguous to someone who is not familiar with the code. Here is the code: "

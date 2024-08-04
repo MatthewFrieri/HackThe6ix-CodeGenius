@@ -129,11 +129,11 @@ export default function FileView({
         }
 
         .code-container {
-          width: 100%;
-          height: 80vh;
-          transition: width 0.5s;
+          // width: 100%;
+          // height: 80vh;
+          // transition: width 0.5s;
           // animation: slideDown 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-          border-radius: 15px;
+          // border-radius: 15px;
           overflow-y: scroll;
           scrollbar-width: none; /* Firefox */
           -ms-overflow-style: none; /* Internet Explorer 10+ */
@@ -212,7 +212,7 @@ export default function FileView({
 
         .feedback-column {
           width: 100%;
-          height: 80%;
+          height: 32rem;
           padding: 20px;
           border: 2px solid #ccc;
           border-radius: 15px;
@@ -222,7 +222,6 @@ export default function FileView({
 
         .feedback-column h2 {
           font-size: 5xl;
-          color: white;
           margin-bottom: 10px;
         }
 
@@ -245,8 +244,8 @@ export default function FileView({
             </div>
           </div>
         )}
-        <div className="flex w-full ">
-          <div className="border-gray-400 mr-4 p-10 border rounded-xl w-[70%] h-[40rem] overflow-scroll code-container">
+        <div className="flex w-full">
+          <div className="border-gray-400 mr-4 p-10 border rounded-xl w-[60rem] h-[40rem] overflow-scroll code-container">
             {lines.map((line, index) => {
               const section = response.sections.find(
                 (sec) => index >= sec.startLine - 1 && index < sec.endLine + 1
@@ -277,10 +276,10 @@ export default function FileView({
           </div>
           <div className="flex flex-col w-[30rem]">
             <div className="feedback-column w-full">
-              <h2>Feedback</h2>
+              <h2 className="text-gray-400">Feedback</h2>
               {(hoveredSection !== null || clickedSection !== null) && (
                 <div className="">
-                  <p>
+                  <p className="text-xl">
                     {hoveredSection !== null
                       ? String(response.sections[hoveredSection].feedback)
                       : clickedSection !== null

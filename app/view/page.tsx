@@ -31,6 +31,8 @@ export default function ViewPage() {
   useEffect(() => {
     if (allFileData !== "") {
       const parsedAllFileData = JSON.parse(allFileData);
+      console.log(parsedAllFileData);
+
       setAllParsedData(parsedAllFileData);
     }
   }, [allFileData]);
