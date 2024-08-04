@@ -1,5 +1,8 @@
 # CodeGenius
 
+[![video](https://img.youtube.com/vi/JIJHCNQ8mZg/0.jpg)](https://www.youtube.com/watch?v=JIJHCNQ8mZg)
+
+
 ## Inspiration 💡
 
 Growing up we all used Genius to understand exactly what our favourite musicians were saying. Similarly, we noticed that when building software, there has been times where we're given a piece of code where we have absolutely no idea what's happening. Whether at work, school or using open source code, seemingly ambiguously-written software is prevalent everywhere. We wanted to created an application that can take the guessing out of reading code and the documentation around said piece of code. Similar to Genius, documentation would be made in the form of annotations pertaining to certain areas of the program that could be harder to understand then others. Modern LLM technology can help us determine what constitutes as a "difficult to understand" piece of code.
