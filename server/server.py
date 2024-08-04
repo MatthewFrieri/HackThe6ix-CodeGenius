@@ -1,6 +1,10 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import groq
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
@@ -16,7 +20,7 @@ def get_score():
     input_string = data['input_string']
 
     # Generate a review based on the input string using Groq API
-    api_key = "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"
+    api_key = os.getenv('GROQ_API_KEY')
     if not api_key:
         return jsonify({"error": "API key is missing"}), 500
 
@@ -65,7 +69,7 @@ def get_indices():
     print(repr(input_string))
 
     # Generate a review based on the input string using Groq API
-    api_key = "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"
+    api_key = os.getenv('GROQ_API_KEY') # iykyk
     if not api_key:
         return jsonify({"error": "API key is missing"}), 500
 
@@ -113,8 +117,6 @@ def get_indices():
         response_content += chunk.choices[0].delta.content or ""
 
     return jsonify({"indices": response_content.strip()})
-
-
 
 if __name__ == '__main__':
     app.run(debug=True)
