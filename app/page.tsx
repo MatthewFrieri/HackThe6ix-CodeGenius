@@ -1,6 +1,6 @@
 "use client";
 
-import FileInput from "./components/FileInput"; // Correct path to the FileInput component
+import FileInput from "../components/FileInput"; // Correct path to the FileInput component
 
 export default function HomePage() {
   return (

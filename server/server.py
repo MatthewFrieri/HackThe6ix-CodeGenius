@@ -78,7 +78,7 @@ def get_indices():
         Review the code and return JUST a list of lists in the format [[startIndex, endIndex, feedback], [startIndex, endIndex, feedback], ...]
         where startIndex is the first line (inclusive) of a complex portion of code, endIndex
         is the last line (inclusive) of a portion of complex code, and feedback is a some feedback on how
-        to document the code better and make it more straightforward, the focus should be on explaining how to improve. 
+        to document the code better and make it more straightforward`, the focus should be on explaining how to improve. 
         Include as many portions of complex code as needed.
         The given code is indexed by a line number, followed by a ~ character, and then the code itself. Please use these line numbers to specify the startIndex and endIndex.
         A complex portion of code is defined as any block that may be ambiguous to someone who is not familiar with the code. Here is the code: "

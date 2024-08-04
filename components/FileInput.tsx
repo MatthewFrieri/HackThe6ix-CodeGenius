@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import JSZip from "jszip";
-import { getIndices, getScore } from "../api/apiCalls";
+import { getIndices, getScore } from "../app/api/apiCalls";
 
 type ScoreObj = {
   score: string;
@@ -146,7 +146,7 @@ export default function Home() {
           border: 4px solid rgba(255, 255, 255, 0.3);
           border-top: 4px solid #000000;
           border-radius: 50%;
-          width:25px;
+          width: 25px;
           height: 25px;
           margin: 0 auto;
           animation: spin 1s linear infinite;
@@ -171,14 +171,16 @@ export default function Home() {
         <label
           htmlFor="fileInput"
           className={`border-4 p-6 rounded-2xl text-white w-[60rem] h-[20rem] flex flex-col items-center justify-center cursor-pointer ${
-            file ? "border-solid border-red-400" : "border-dashed border-red-400 animate-pulse-custom"
+            file
+              ? "border-solid border-red-400"
+              : "border-dashed border-red-400 animate-pulse-custom"
           } `}
         >
-          <p className="text-4xl bg-clip-text bg-white text-transparent">
+          <p className="bg-clip-text bg-white text-4xl text-transparent">
             {file ? `File Selected` : "Drop in a file!"}
           </p>
           {file && (
-            <p className="text-2xl mt-2 bg-clip-text bg-gradient-to-r from-red-500 to-orange-400 text-transparent">
+            <p className="bg-clip-text bg-gradient-to-r from-red-500 to-orange-400 mt-2 text-2xl text-transparent">
               {`File: ${file.name}`}
             </p>
           )}
@@ -189,7 +191,7 @@ export default function Home() {
             loading ? "" : "hover:bg-gray-300"
           }`}
           disabled={loading} // Disable the button while loading
-          style={{ width: '60rem' }} // Make the button long again
+          style={{ width: "60rem" }} // Make the button long again
         >
           {loading ? <div className="spinner"></div> : "Submit"}
         </button>

@@ -1,11 +1,11 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import FileView from "@/app/components/FileView";
+import FileView from "@/components/FileView";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
-import "@/app/styles/tabs.css";
+import "@/styles/tabs.css";
 
 type FileData = {
   fileName: string;
