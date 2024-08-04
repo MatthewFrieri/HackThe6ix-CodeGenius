@@ -14,19 +14,6 @@ type FileData = {
   annotationsObj: string;
 };
 
-const customTabsTheme = {
-  Tab: {
-    backgroundColor: "#f0f0f0",
-    borderBottom: "2px solid #ccc",
-    padding: "10px",
-  },
-  TabActive: {
-    backgroundColor: "#fff",
-    borderBottom: "2px solid #337ab7",
-    padding: "10px",
-  },
-};
-
 export default function ViewPage() {
   const searchParams = useSearchParams();
   const [allFileData, setAllFileData] = useState<string>("");
