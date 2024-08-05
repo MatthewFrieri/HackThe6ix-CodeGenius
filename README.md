@@ -62,8 +62,8 @@ First of all, we want to do is host the application on Vercel so that everyone c
 
 ## Team Members
 
-David Crimi
-Matthew Frieri
-Rishabh Sharma
+David Crimi,
+Matthew Frieri,
+Rishabh Sharma,
 Shervin Darmanki Farahani
 
